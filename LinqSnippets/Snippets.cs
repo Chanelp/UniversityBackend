@@ -298,5 +298,83 @@ namespace LinqSnippets
             IEnumerable<string> fiveXs = Enumerable.Repeat("F", 5);
         }
 
+        static public void studentsLinq()
+        {
+            var classRoom = new[]
+            {
+                new Student
+                {
+                    Name = "Chanel",
+                    Id = 1,
+                    Grade = 100,
+                    Certified = true
+                },
+                new Student
+                {
+                    Name = "Juan",
+                    Id = 2,
+                    Grade = 98,
+                    Certified = false
+                },
+                new Student
+                {
+                    Name = "Ana",
+                    Id = 3,
+                    Grade = 97,
+                    Certified = true
+                },
+                new Student
+                {
+                    Name = "Alvaro",
+                    Id = 4,
+                    Grade = 89,
+                    Certified = false
+                },
+                new Student
+                {
+                    Name = "Miguel",
+                    Id = 5,
+                    Grade = 90,
+                    Certified = true
+                }
+            };
+
+            var certifiedStudents = from student in classRoom
+                                    where student.Certified == true
+                                    select student;
+
+            var notCertifiedStudents = from student in classRoom
+                                       where student.Certified == false
+                                       select student;
+
+            var approvedStudentsName = from student in classRoom
+                                       where student.Grade >= 50 && student.Certified == true
+                                       select student.Name;
+        }
+
+        // ALL
+        static public void AllLinq()
+        {
+            var numbers = new List<int> { 1, 2, 3, 4, 5 };
+            bool allAreSmallerThan10 = numbers.All(n => n < 10); // True
+            bool allAreBiggerOrEqualThan2 = numbers.All(n => n >= 2); // False
+
+            var emptyList = new List<int>();
+
+            bool allNumbersAreGreaterThan0 = numbers.All(x => x >= 0); // true
+        }
+
+        // Aggregate
+        static public void aggregateQueries()
+        {
+
+        }
+
+        // Distinct
+
+
+        // GroupBy
+
+
     }
 }
