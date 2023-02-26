@@ -250,5 +250,32 @@ namespace LinqSnippets
             var takeWhileSmallerThan4 = myList.TakeWhile(num => num < 4);
         }
 
+        // Paging with Skip & Take
+        static public IEnumerable<T> GetPage<T> (IEnumerable<T> collection, int pageNumber, int resultsPerPage)
+        {
+            int startIndex = (pageNumber - 1) * resultsPerPage;
+            return collection.Skip(startIndex).Take(resultsPerPage);
+        }
+
+        // Variables
+        static public void LinqVariables()
+        {
+            int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 8, 10 };
+
+            var aboveAverage = from number in numbers
+                               let average = numbers.Average()
+                               let nSquared = Math.Pow(number, 2)
+                               where nSquared > average
+                               select number;
+
+            Console.WriteLine("Average: {0}", numbers.Average());
+
+            foreach(int number in aboveAverage)
+            {
+                Console.WriteLine("Query: Number {0} Square {1} ", number, Math.Pow(number, 2));
+            }
+
+        }
+
     }
 }
