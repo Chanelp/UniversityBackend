@@ -26,6 +26,19 @@ builder.Services.AddScoped<IStudentsService, StudentsService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// 5. Habilitar CORS - CORS Generic Configurations
+// (Quienes pueden realizar peticiones a nuestra api, desde quee entornos, métodos usar, headers a enviar)
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "CorsPolicy", builder =>
+    {
+        builder.AllowAnyOrigin();
+        builder.AllowAnyMethod();
+        builder.AllowAnyHeader();
+    });
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -40,5 +53,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// 6. Tell app to use CORS
+app.UseCors("CorsPolicy");
 
 app.Run();
