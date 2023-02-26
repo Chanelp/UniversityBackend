@@ -277,6 +277,7 @@ namespace LinqSnippets
 
         }
 
+        // ZIP
         static public void ZipLinq()
         {
             int[] numbers = { 1, 2, 3, 4, 5 };
@@ -285,6 +286,16 @@ namespace LinqSnippets
             IEnumerable<string> zipNumbers = numbers.Zip(stringNumbers, (number, word) => number + "=" + word);
 
             // { "1 = one", "2 = two", ... }
+        }
+
+        // REPEAT & RANGE
+        static public void repeatRangeLinq()
+        {
+            // Generate collection from 1 - 1000
+            IEnumerable<int> first1000 = Enumerable.Range(1, 1000);
+
+            // Repeat a value
+            IEnumerable<string> fiveXs = Enumerable.Repeat("F", 5);
         }
 
     }
