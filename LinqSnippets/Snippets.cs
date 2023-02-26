@@ -398,11 +398,153 @@ namespace LinqSnippets
 
             foreach(var group in grouped)
             {
+                Console.WriteLine("-----------");
                 foreach(var value in group)
                 {
                     Console.WriteLine(value); // odd 1, 3, 5, 7, 9 ... even 2, 4, 6, 8 (first the odds and then the even)
                 }
             }
+
+            // Another Example
+            var classRoom = new[]
+            {
+                new Student
+                {
+                    Name = "Chanel",
+                    Id = 1,
+                    Grade = 100,
+                    Certified = true
+                },
+                new Student
+                {
+                    Name = "Juan",
+                    Id = 2,
+                    Grade = 98,
+                    Certified = false
+                },
+                new Student
+                {
+                    Name = "Ana",
+                    Id = 3,
+                    Grade = 97,
+                    Certified = true
+                },
+                new Student
+                {
+                    Name = "Alvaro",
+                    Id = 4,
+                    Grade = 89,
+                    Certified = false
+                },
+                new Student
+                {
+                    Name = "Miguel",
+                    Id = 5,
+                    Grade = 90,
+                    Certified = true
+                }
+            };
+
+            var certifiedQuery = classRoom.GroupBy(student => student.Certified);
+
+            // We obtain two groups
+            // 1- Not certified students
+            // 2-Certified students
+
+            foreach (var group in certifiedQuery)
+            {
+                Console.WriteLine("----------- {0} -----------", group.Key); // -- Certified -- true or false
+                foreach (var student in group)
+                {
+                    Console.WriteLine(student);
+                }
+            }
+
+        }
+
+        static public void relationsLinq()
+        {
+            List<Post> posts = new List<Post>()
+            {
+                new Post()
+                {
+                    Id = 1,
+                    Title = "Flowers",
+                    Content = "Tulipanes",
+                    Created = DateTime.Now,
+                    Comments = new List<Comment>()
+                    {
+                        new Comment()
+                        {
+                            Id = 1,
+                            Title = "My first comment",
+                            Content = "Wow, beauty",
+                            Created = DateTime.Now,
+                        },
+                        new Comment()
+                        {
+                            Id = 2,
+                            Title = "My first comment",
+                            Content = "Wow, beauty",
+                            Created = DateTime.Now,
+                        }
+                    }
+                },
+                new Post()
+                {
+                    Id = 2,
+                    Title = "Flowers",
+                    Content = "Tulipanes",
+                    Created = DateTime.Now,
+                    Comments = new List<Comment>()
+                    {
+                        new Comment()
+                        {
+                            Id = 3,
+                            Title = "My first comment",
+                            Content = "Wow, beauty",
+                            Created = DateTime.Now,
+                        },
+                        new Comment()
+                        {
+                            Id = 4,
+                            Title = "My first comment",
+                            Content = "Wow, beauty",
+                            Created = DateTime.Now,
+                        }
+                    }
+                },
+                new Post()
+                {
+                    Id = 3,
+                    Title = "Flowers",
+                    Content = "Tulipanes",
+                    Created = DateTime.Now,
+                    Comments = new List<Comment>()
+                    {
+                        new Comment()
+                        {
+                            Id = 5,
+                            Title = "My first comment",
+                            Content = "Wow, beauty",
+                            Created = DateTime.Now,
+                        },
+                        new Comment()
+                        {
+                            Id = 6,
+                            Title = "My first comment",
+                            Content = "Wow, cuties",
+                            Created = DateTime.Now,
+                        }
+                    }
+                }
+            };
+
+            // Ejemplo con clases-Valores que están relacionados
+
+            var commentsContent = posts.SelectMany(
+                post => post.Comments, 
+                (post, comment) => new { postId = post.Id, CommentContent = comment.Content });
         }
 
 
