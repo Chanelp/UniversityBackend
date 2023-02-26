@@ -367,7 +367,13 @@ namespace LinqSnippets
         // Aggregate
         static public void aggregateQueries()
         {
+            int[] numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
+            // Sum all numbers
+            int sum = numbers.Aggregate((prevSum, current) => prevSum + current);
+
+            string[] words = { "hello,", "my", "name", "is", "Chanel" };
+            string greeting = words.Aggregate((prevGreeting, current) => prevGreeting + current);
         }
 
         // Distinct
