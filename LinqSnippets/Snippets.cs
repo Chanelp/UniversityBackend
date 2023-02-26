@@ -377,9 +377,33 @@ namespace LinqSnippets
         }
 
         // Distinct
+        static public void distinctValues()
+        {
+            int[] numbers = { 1, 2, 3, 4, 5, 5, 4, 3, 2, 1 };
 
+            IEnumerable<int> distinctValues = numbers.Distinct();
+        }
 
         // GroupBy
+        static public void groupByExamples()
+        {
+            List<int> numbers = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+            // Obtain only even numbers and generate two groups
+            var grouped = numbers.GroupBy(x => x % 2 == 0);
+
+            // We will have two groups:
+            // 1. The group that doesn't fit the condition (odd numbers)
+            // 2. The group that fits the condition (even numbers)
+
+            foreach(var group in grouped)
+            {
+                foreach(var value in group)
+                {
+                    Console.WriteLine(value); // odd 1, 3, 5, 7, 9 ... even 2, 4, 6, 8 (first the odds and then the even)
+                }
+            }
+        }
 
 
     }
