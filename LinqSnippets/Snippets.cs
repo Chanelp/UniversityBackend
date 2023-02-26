@@ -277,5 +277,15 @@ namespace LinqSnippets
 
         }
 
+        static public void ZipLinq()
+        {
+            int[] numbers = { 1, 2, 3, 4, 5 };
+            string[] stringNumbers = { "one", "two", "three", "four", "five" };
+
+            IEnumerable<string> zipNumbers = numbers.Zip(stringNumbers, (number, word) => number + "=" + word);
+
+            // { "1 = one", "2 = two", ... }
+        }
+
     }
 }
