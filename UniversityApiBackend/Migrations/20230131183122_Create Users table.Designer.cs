@@ -11,7 +11,7 @@ using UniversityApiBackend.DataAccess;
 
 namespace UniversityApiBackend.Migrations
 {
-    [DbContext(typeof(UniverityDBContext))]
+    [DbContext(typeof(UniversityDBContext))]
     [Migration("20230131183122_Create Users table")]
     partial class CreateUserstable
     {

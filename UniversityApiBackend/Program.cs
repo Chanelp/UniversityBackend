@@ -1,39 +1,78 @@
-// 1. Usings to work with Entity Framework
+// 1. Usings to work with EntityFramework
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using UniversityApiBackend;
 using UniversityApiBackend.DataAccess;
 using UniversityApiBackend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 2. TODO: CONNECTION WITH SQL SERVER EXPRESS
-const string CONNECTION = "UniverityDB";
-var connectionString = builder.Configuration.GetConnectionString(CONNECTION);
 
-// 3. Add context to Services of builder
-builder.Services.AddDbContext<UniverityDBContext>(options => options.UseSqlServer(connectionString));
+// 2. Connection with SQL Server Express
+const string CONNECTIONNAME = "UniversityDB";
+var connectionString = builder.Configuration.GetConnectionString(CONNECTIONNAME);
+
+// 3. Add Context to Services of builder
+builder.Services.AddDbContext<UniversityDBContext>(options => options.UseSqlServer(connectionString));
+
 
 // 7. Add Service of JWT Autorization
-// TODO:
-//builder.Services.AddJwtTokenServices(builder.Configuration);
+builder.Services.AddJwtTokenServices(builder.Configuration);
 
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 
 // 4. Add Custom Services (folder Services)
 builder.Services.AddScoped<IStudentsService, StudentsService>();
-//TODO: Add the rest of services
+// TODO: Add the rest of services
+
+
+// 8. Add Authorization
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("UserOnlyPolicy", policy => policy.RequireClaim("UserOnly", "User1"));
+});
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-// 8. TODO: Config Swagger to take care of Autorization of JWT
-builder.Services.AddSwaggerGen();
+// 9. Config Swagger to take care of Autorization of JWT
+builder.Services.AddSwaggerGen(options =>
+{
 
-// 5. Habilitar CORS - CORS Generic Configurations
-// (Quienes pueden realizar peticiones a nuestra api, desde quee entornos, métodos usar, headers a enviar)
+    // We define the Security for authorzation
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "JWT Authorization Header using Bearer Scheme"
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+
+            {
+                new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type= ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                new string[]{}
+            }
+        });
+}
+);
+
+
+// 5. CORS Configuration
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: "CorsPolicy", builder =>
@@ -42,8 +81,8 @@ builder.Services.AddCors(options =>
         builder.AllowAnyMethod();
         builder.AllowAnyHeader();
     });
-});
-
+}
+);
 
 var app = builder.Build();
 

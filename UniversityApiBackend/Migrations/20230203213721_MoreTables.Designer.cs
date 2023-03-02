@@ -11,7 +11,7 @@ using UniversityApiBackend.DataAccess;
 
 namespace UniversityApiBackend.Migrations
 {
-    [DbContext(typeof(UniverityDBContext))]
+    [DbContext(typeof(UniversityDBContext))]
     [Migration("20230203213721_MoreTables")]
     partial class MoreTables
     {
